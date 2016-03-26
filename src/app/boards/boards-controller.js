@@ -1,84 +1,85 @@
 'use strict';
 
 angular.module('noterious')
-  .controller('BoardsCtrl', function (currentUser, BoardsModel) {
-    var ctrl = this;
+    .controller('BoardsCtrl', function (currentUser, BoardsModel) {
+        var ctrl = this;
 
-    ctrl.loading = false;
+        ctrl.loading = false;
 
-    ctrl.newBoard = {
-      title: '',
-      description: '',
-      isPublic: false
-    };
+        ctrl.newBoard = {
+            title: '',
+            description: '',
+            isPublic: false
+        };
 
-    ctrl.resetForm = function () {
-      ctrl.loading = false;
-      ctrl.newBoard = {
-        title: '',
-        description: '',
-        isPublic: false
-      };
-    };
+        ctrl.resetForm = function () {
+            ctrl.loading = false;
+            ctrl.newBoard = {
+                title: '',
+                description: '',
+                isPublic: false
+            };
+        };
 
-    ctrl.getBoards = function () {
-      ctrl.boards = {
-        1: {
-          description: "Anything and everything!",
-          isPublic: true,
-          title: "Random Ideas"
-        },
-        2: {
-          description: "BizDev Ideas",
-          isPublic: false,
-          title: "Hustle"
-        },
-        3: {
-          description: "this is a test",
-          isPublic: false,
-          title: "testing"
-        }
-      };
-    };
+        ctrl.getBoards = function () {
+            ctrl.boards = {
+                1: {
+                    description: "Anything and everything!",
+                    isPublic: true,
+                    title: "Random Ideas"
+                },
+                2: {
+                    description: "BizDev Ideas",
+                    isPublic: false,
+                    title: "Hustle"
+                },
+                3: {
+                    description: "this is a test",
+                    isPublic: false,
+                    title: "testing"
+                }
+            };
+        };
 
-    ctrl.createBoard = function (board, isValid) {
-      if (isValid) {
-        ctrl.loading = true;
-        // CREATE BOARD
-        ctrl.resetForm();
-      }
-    };
+        ctrl.createBoard = function (board, isValid) {
+            if (isValid) {
+                ctrl.loading = true;
 
-    ctrl.updateBoard = function (boardId, board, isValid) {
-      if (isValid) {
-        ctrl.loading = true;
-        // UPDATE BOARD
-        ctrl.cancelEditing();
-      }
-    };
+                ctrl.boards[1234] = board;
+                ctrl.resetForm();
+            }
+        };
 
-    ctrl.deleteBoard = function (boardId) {
-      ctrl.loading = true;
-      // DELETE BOARD
-      ctrl.cancelEditing();
-    };
+        ctrl.updateBoard = function (boardId, board, isValid) {
+            if (isValid) {
+                ctrl.loading = true;
+                ctrl.boards[boardId] = board;
+                ctrl.cancelEditing();
+            }
+        };
 
-    ctrl.setEditedBoard = function (boardId, board) {
-      ctrl.editedBoardId = boardId;
-      ctrl.editedBoard = angular.copy(board);
-      ctrl.isEditing = true;
-    };
+        ctrl.deleteBoard = function (boardId) {
+            ctrl.loading = true;
+            // DELETE BOARD
+            ctrl.cancelEditing();
+        };
 
-    ctrl.isCurrentBoard = function (boardId) {
-      return ctrl.editedBoard !== null && ctrl.editedBoardId === boardId;
-    };
+        ctrl.setEditedBoard = function (boardId, board) {
+            ctrl.editedBoardId = boardId;
+            ctrl.editedBoard = angular.copy(board);
+            ctrl.isEditing = true;
+        };
 
-    ctrl.cancelEditing = function () {
-      ctrl.loading = false;
-      ctrl.editedBoardId = null;
-      ctrl.editedBoard = null;
-      ctrl.isEditing = false;
-    };
+        ctrl.isCurrentBoard = function (boardId) {
+            return ctrl.editedBoard !== null && ctrl.editedBoardId === boardId;
+        };
 
-    ctrl.getBoards();
-  });
+        ctrl.cancelEditing = function () {
+            ctrl.loading = false;
+            ctrl.editedBoardId = null;
+            ctrl.editedBoard = null;
+            ctrl.isEditing = false;
+        };
+
+        ctrl.getBoards();
+    });

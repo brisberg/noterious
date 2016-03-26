@@ -1,36 +1,61 @@
 <div class="col-sm-4">
-  <div class="boards">
-      <!-- HINT: Don't forget to hook up your ng-repeat element
-      to ctrl.setEditedBoard via ng-click – that way, you will
-      be able to actually see the editing form when you click on a board.
-      -->
-    <div
-      class="simple-board">
+    <div class="boards">
+        <!-- HINT: Don't forget to hook up your ng-repeat element
+        to ctrl.setEditedBoard via ng-click – that way, you will
+        be able to actually see the editing form when you click on a board.
+        -->
+        <div
+                class="simple-board"
+                ng-repeat="(boardId, board) in ctrl.boards"
+                ng-click="ctrl.setEditedBoard(boardId, board)">
+            <h2>{{board.title}}</h2>
+
+            <p>{{board.description}}</p>
+            <input type="checkbox" ng-model="model.isPublic"/> Is Public?
+        </div>
     </div>
 
-  </div>
+</div>
 </div>
 <div class="col-sm-8">
-  <!-- CREATING -->
-  <div ng-if="!ctrl.isEditing" class="col-xs-12 board-details">
-    <h3>Create a New Board</h3>
-    <hr/>
-    <form
-      name="ctrl.createForm"
-      class="create-form"
-      role="form"
-      novalidate>
-    </form>
-  </div>
-  <!-- EDITING -->
-  <div ng-if="ctrl.isEditing" class="col-xs-12 board-details">
-    <h3>Editing {{ ctrl.editedBoard.title }}</h3>
-    <hr/>
-    <form
-      name="ctrl.updateForm"
-      class="edit-form"
-      role="form"
-      novalidate>
-    </form>
-  </div>
+    <!-- CREATING -->
+    <div ng-if="!ctrl.isEditing" class="col-xs-12 board-details">
+        <h3>Create a New Board</h3>
+        <hr/>
+        <form
+                name="ctrl.createForm"
+                class="create-form"
+                role="form"
+                ng-submit="ctrl.createBoard(ctrl.newBoard, ctrl.createForm.$valid)"
+                novalidate>
+            <div class="form-group">
+                <input class="form-control" type="text" ng-model="ctrl.newBoard.title" required>
+                <input class="form-control" type="text" ng-model="ctrl.newBoard.description">
+                <input type="checkbox" ng-model="ctrl.newBoard.isPublic"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" type="submit">Create</button>
+            </div>
+        </form>
+    </div>
+    <!-- EDITING -->
+    <div ng-if="ctrl.isEditing" class="col-xs-12 board-details">
+        <h3>Editing {{ ctrl.editedBoard.title }}</h3>
+        <hr/>
+        <form ng-submit="ctrl.updateBoard(ctrl.editedBoardId, ctrl.editedBoard, ctrl.updateForm.$valid)"
+              name="ctrl.updateForm"
+              class="edit-form"
+              role="form"
+              novalidate>
+            <div class="form-group">
+                <input class="form-control" type="text" ng-model="ctrl.editedBoard.title" required>
+                <input class="form-control" type="text" ng-model="ctrl.editedBoard.description">
+                <input type="checkbox" ng-model="ctrl.editedBoard.isPublic"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" type="button" ng-click="ctrl.cancelEditing()">Cancel</button>
+                <button class="btn btn-default" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
 </div>
